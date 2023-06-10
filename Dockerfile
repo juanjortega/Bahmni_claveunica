@@ -1,20 +1,21 @@
-# Usa una imagen base con Python 3.9
+# Establece la imagen base
 FROM python:3.9
 
-# Establece el directorio de trabajo en /app
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia los archivos de código fuente y los requisitos al contenedor
+# Copia los archivos requeridos al directorio de trabajo
 COPY . /app
 
-# Instala las dependencias del proyecto
+# Instala las dependencias
 RUN pip install -r requirements.txt
 
-# Mueve el archivo .env al directorio de trabajo dentro del contenedor
-RUN mv .env /app/.env
+# Expone cualquier puerto necesario para tu aplicación
+EXPOSE 81
 
-# Expone el puerto 5001 para la aplicación Flask
-EXPOSE 5001
+# Establece las variables de entorno del archivo .env
+ENV PYTHONPATH "${PYTHONPATH}:/app"  # Agregar cualquier ruta adicional necesaria
+ENV DOTENV_PATH "/app/.env"
 
-# Ejecuta el comando para iniciar la aplicación Flask
-CMD ["python", "nombre_del_archivo.py"]
+# Ejecuta los programas en segundo plano cuando se inicie el contenedor
+CMD ["bash", "-c", "python apiDeamon.py & python apiRetoken.py & python mailsender.py"]
