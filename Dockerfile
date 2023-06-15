@@ -2,10 +2,10 @@
 FROM python:3.9
 
 # Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+WORKDIR /scripts
 
 # Copia los archivos requeridos al directorio de trabajo
-COPY . /app
+COPY . /scripts
 
 # Instala las dependencias
 RUN pip install -r requirements.txt
@@ -14,8 +14,8 @@ RUN pip install -r requirements.txt
 EXPOSE 81
 
 # Establece las variables de entorno del archivo .env
-ENV PYTHONPATH "${PYTHONPATH}:/app"  # Agregar cualquier ruta adicional necesaria
-ENV DOTENV_PATH "/app/.env"
+ENV PYTHONPATH "${PYTHONPATH}:/scripts"  # Agregar cualquier ruta adicional necesaria
+ENV DOTENV_PATH "/scripts/.env"
 
 # Ejecuta los programas en segundo plano cuando se inicie el contenedor
 CMD ["bash", "-c", "python apiDeamon.py & python apiRetoken.py & python mailsender.py"]
